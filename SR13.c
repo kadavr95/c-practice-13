@@ -228,7 +228,7 @@ int arraycutoff(int pos, int num, int *qty, int *array)//удаление элементов
 
 }
 
-int sort(int qel, int *qas, int *qco, int *array)//сортировка массива
+int sort(int qel, int *qas, int *qco, int *array)//сортировка массива методом вставки (включения)
 {
 	int k,j,i; //определение переменных
 	for (k = 2; k <=qel ; k++)//проход по всем элементам после первого
