@@ -57,11 +57,12 @@ int main(void)//главна€ функци€
 	readfromfile(&arraysize,array);//считывание массива из файла
 	sort(arraysize, &asgn, &cmpr,array);//сортировка массива
 	output(arraysize,array);//вывод массива
-	printf("Quantity of assignments: %d\n",asgn);
-	printf("Quantity of comparisons: %d\n\n",cmpr);
+
 	readfromfile(&arraysize,array);//считывание массива из файла
 	sort1(arraysize, &asgn1, &cmpr1,array);//сортировка массива
 	output(arraysize,array);//вывод массива
+	printf("Quantity of assignments: %d\n",asgn);
+	printf("Quantity of comparisons: %d\n\n",cmpr);
 	printf("Quantity of assignments: %d\n",asgn1);
 	printf("Quantity of comparisons: %d\n\n",cmpr1);
 	fflush(stdin);//ожидание действий пользовател€
@@ -292,14 +293,14 @@ int sort(int qel, int *qas, int *qco, int *array)//сортировка массива
 
 int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 {
-	int k,j,i; //определение переменных
+	int k,j,i,qsort=1; //определение переменных
 	for (k = 2; k <=qel ; k++)//проход по всем элементам после первого
 	{
 		array[0]=array[k];//передача сравниваемого элемента в нулевой элемент
 		*qas=*qas+1;//операци€ присваивани€
-		if (array[0]>array[qel/2])
+		if (array[0]>=array[qsort/2])
 		{
-			j=qel/2;
+			j=qsort/2;
 			while((array[j]<array[0])&&(j<k))//проход по отсортированным элементам
 			{
 				j++;//изменение счетчика
@@ -309,7 +310,7 @@ int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 		else
 		{
 			j=1;//сброс счетчика
-			while((array[j]<array[0])&&(j<qel/2))//проход по отсортированным элементам
+			while((array[j]<array[0])&&(j<qsort/2))//проход по отсортированным элементам
 			{
 				j++;//изменение счетчика
 				*qco=*qco+1;//операци€ сравнени€
@@ -323,6 +324,8 @@ int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 		}
 		array[j]=array[0];//вставка элемента из нулевого
 		*qas=*qas+1;//операци€ присваивани€
+		qsort++;
 	}
 }
+
 
