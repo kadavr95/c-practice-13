@@ -1,6 +1,7 @@
 //—амосто€тельна€ работа 12. ¬ариант 1. яскович ƒмитрий (T02-01c). Dimini Inc. (c)2013
 #include <stdio.h>//подключение библиотек
 #include <stdlib.h>
+#include <math.h>
 
 int filling(int low, int up, int qty, int *array); //прототипы функций
 int output(int qty, int *array);
@@ -16,6 +17,7 @@ int arraycutoff(int pos, int num, int *qty, int *array);
 int checksize(int *arraysize);
 int sort(int qel, int *qas, int *qco, int *array);
 int sort1(int qel, int *qas, int *qco, int *array);
+int sortn(int qel, int *qas, int *qco, int *array);
 
 
 int main(void)//главна€ функци€
@@ -328,4 +330,43 @@ int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 	}
 }
 
+int sortn(int qel, int *qas, int *qco, int *array)//сортировка массива
+{
+	int l,k,j,i,qsort=1; //определение переменных
+	for (k = 2; k <=qel ; k++)//проход по всем элементам после первого
+	{
+		array[0]=array[k];//передача сравниваемого элемента в нулевой элемент
+		*qas=*qas+1;//операци€ присваивани€
+		for (l = 1; l <= trunc(log2(qel))+1; l++)
+		{
 
+		}
+		if (array[0]>=array[qsort/2])
+		{
+			j=qsort/2;
+			while((array[j]<array[0])&&(j<k))//проход по отсортированным элементам
+			{
+				j++;//изменение счетчика
+				*qco=*qco+1;//операци€ сравнени€
+			}
+		}
+		else
+		{
+			j=1;//сброс счетчика
+			while((array[j]<array[0])&&(j<qsort/2))//проход по отсортированным элементам
+			{
+				j++;//изменение счетчика
+				*qco=*qco+1;//операци€ сравнени€
+			}
+		}
+		*qco=*qco+2;//операци€ сравнени€
+		for (i = k; i > j; i--)//цикл сдвига значений
+		{
+			array[i]=array[i-1];//сдвиг значени€
+			*qas=*qas+1;//операци€ присваивани€
+		}
+		array[j]=array[0];//вставка элемента из нулевого
+		*qas=*qas+1;//операци€ присваивани€
+		qsort++;
+	}
+}
