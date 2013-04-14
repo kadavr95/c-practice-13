@@ -37,7 +37,7 @@ int main(void)//главная функция
 	}
 	filling(low,up,arraysize,array);//заполнеие массива
 	output(arraysize,array);//вывод массива
-	nmax=arraysize/2;//определение максимально допустимого числа элементов для перестановки
+	/*nmax=arraysize/2;//определение максимально допустимого числа элементов для перестановки
 	printf("Enter quantity of elements to be rearranged (it must be less or equal to %d): ",nmax);//ввод количества элементов для перестановки
 	scanf("%d", &n);
 	checkn(arraysize,nmax,&n);//проверка количества элементов
@@ -55,18 +55,26 @@ int main(void)//главная функция
 		arraycutoff(position,number,&arraysize,array);//удаление элементов
 	}
 	output(arraysize,array);//вывод массива
-	savetofile(arraysize,array);//сохранение массива в файл
+	*/
+	//savetofile(arraysize,array);//сохранение массива в файл
 	readfromfile(&arraysize,array);//считывание массива из файла
-	sort(arraysize, &asgn, &cmpr,array);//сортировка массива
 	output(arraysize,array);//вывод массива
 
 	readfromfile(&arraysize,array);//считывание массива из файла
+	sort(arraysize, &asgn, &cmpr,array);//сортировка массива
+	output(arraysize,array);//вывод массива
+	readfromfile(&arraysize,array);//считывание массива из файла
 	sort1(arraysize, &asgn1, &cmpr1,array);//сортировка массива
+	output(arraysize,array);//вывод массива
+	readfromfile(&arraysize,array);//считывание массива из файла
+	sortn(arraysize, &asgnn, &cmprn,array);//сортировка массива
 	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn);
 	printf("Quantity of comparisons: %d\n\n",cmpr);
 	printf("Quantity of assignments: %d\n",asgn1);
 	printf("Quantity of comparisons: %d\n\n",cmpr1);
+	printf("Quantity of assignments: %d\n",asgnn);
+	printf("Quantity of comparisons: %d\n\n",cmprn);
 	fflush(stdin);//ожидание действий пользователя
 	getchar();
 	return 0;
@@ -295,14 +303,19 @@ int sort(int qel, int *qas, int *qco, int *array)//сортировка массива
 
 int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 {
-	int k,j,i,qsort=1; //определение переменных
+	int k,j,i,qsort=1,midel; //определение переменных
 	for (k = 2; k <=qel ; k++)//проход по всем элементам после первого
 	{
 		array[0]=array[k];//передача сравниваемого элемента в нулевой элемент
 		*qas=*qas+1;//операция присваивания
-		if (array[0]>=array[qsort/2])
+		midel=qsort/2;
+		if (midel==0)
 		{
-			j=qsort/2;
+			midel=1;
+		}
+		if (array[0]>array[midel])
+		{
+			j=midel;
 			while((array[j]<array[0])&&(j<k))//проход по отсортированным элементам
 			{
 				j++;//изменение счетчика
@@ -312,7 +325,7 @@ int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 		else
 		{
 			j=1;//сброс счетчика
-			while((array[j]<array[0])&&(j<qsort/2))//проход по отсортированным элементам
+			while((array[j]<array[0])&&(j<midel))//проход по отсортированным элементам
 			{
 				j++;//изменение счетчика
 				*qco=*qco+1;//операция сравнения
@@ -332,34 +345,27 @@ int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 
 int sortn(int qel, int *qas, int *qco, int *array)//сортировка массива
 {
-	int l,k,j,i,qsort=1; //определение переменных
+	int l,k,j,i,qsort=1,poss=1,pose=qsort; //определение переменных
 	for (k = 2; k <=qel ; k++)//проход по всем элементам после первого
 	{
 		array[0]=array[k];//передача сравниваемого элемента в нулевой элемент
 		*qas=*qas+1;//операция присваивания
-		for (l = 1; l <= trunc(log2(qel))+1; l++)
+		for (l = 0; l <= (log10(qsort)/log10(2)+0.5); l++)
 		{
-
-		}
-		if (array[0]>=array[qsort/2])
-		{
-			j=qsort/2;
-			while((array[j]<array[0])&&(j<k))//проход по отсортированным элементам
+			if (array[0]>array[poss+(pose-poss)/2])
 			{
-				j++;//изменение счетчика
-				*qco=*qco+1;//операция сравнения
+				poss=poss+(pose-poss)/2;
+				//poss=poss+(pose-poss+1)/2-1;
+				j=pose;
+			}
+			else
+			{
+				pose=poss+(pose-poss)/2;
+				j=poss;
 			}
 		}
-		else
-		{
-			j=1;//сброс счетчика
-			while((array[j]<array[0])&&(j<qsort/2))//проход по отсортированным элементам
-			{
-				j++;//изменение счетчика
-				*qco=*qco+1;//операция сравнения
-			}
-		}
-		*qco=*qco+2;//операция сравнения
+				poss=1;
+		pose=qsort;
 		for (i = k; i > j; i--)//цикл сдвига значений
 		{
 			array[i]=array[i-1];//сдвиг значения
