@@ -22,7 +22,7 @@ int sortn(int qel, int *qas, int *qco, int *array);
 
 int main(void)//главная функция
 {
-	int *array, arraysize,n,nmax,position,number,low,up,asgn=0,cmpr=0,asgn1=0,cmpr1=0,asgnn=0,cmprn=0,asgnd=0,cmprd=0;//определение переменных
+	int *array, arraysize,n,nmax,position,number,low,up,asgn=0,cmpr=0,asgn1=0,cmpr1=0,asgnn=0,cmprn=0;//определение переменных
 	printf("Enter quantity of elements in array: ");//ввод количества элементов в массиве
 	scanf("%d", &arraysize);
 	checksize(&arraysize);
@@ -36,45 +36,31 @@ int main(void)//главная функция
 		up=low+up;
 	}
 	filling(low,up,arraysize,array);//заполнеие массива
-	output(arraysize,array);//вывод массива
-	/*nmax=arraysize/2;//определение максимально допустимого числа элементов для перестановки
-	printf("Enter quantity of elements to be rearranged (it must be less or equal to %d): ",nmax);//ввод количества элементов для перестановки
-	scanf("%d", &n);
-	checkn(arraysize,nmax,&n);//проверка количества элементов
-	replace(n,array);//замена элементов в массиве
-	output(arraysize,array);//вывод массива
-	printf("Enter position to place/remove elements and change in quantity: ");//ввод количества элементов для добавления или удаления и позиции с которой это надо сделать
-	scanf("%d %d", &position, &number);
-	checkposnum(arraysize,&position,&number);//проверка количества элементов и позиции
-	if (number>=0)//выбор добавления/удаления
-	{
-		arrayinsert(low,up,position,number,&arraysize,array);//добавление элементов
-	}
-	else
-	{
-		arraycutoff(position,number,&arraysize,array);//удаление элементов
-	}
-	output(arraysize,array);//вывод массива
-	*/
-	//savetofile(arraysize,array);//сохранение массива в файл
+	savetofile(arraysize,array);//сохранение массива в файл
 	readfromfile(&arraysize,array);//считывание массива из файла
+	printf("Array\n",asgn);
 	output(arraysize,array);//вывод массива
-
 	readfromfile(&arraysize,array);//считывание массива из файла
 	sort(arraysize, &asgn, &cmpr,array);//сортировка массива
-	output(arraysize,array);//вывод массива
-	readfromfile(&arraysize,array);//считывание массива из файла
-	sort1(arraysize, &asgn1, &cmpr1,array);//сортировка массива
-	output(arraysize,array);//вывод массива
-	readfromfile(&arraysize,array);//считывание массива из файла
-	sortn(arraysize, &asgnn, &cmprn,array);//сортировка массива
+	printf("Standart sorting\n",asgn);
 	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn);
 	printf("Quantity of comparisons: %d\n\n",cmpr);
+	readfromfile(&arraysize,array);//считывание массива из файла
+	sort1(arraysize, &asgn1, &cmpr1,array);//сортировка массива
+	printf("Improved sort\n",asgn);
+	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn1);
 	printf("Quantity of comparisons: %d\n\n",cmpr1);
+	readfromfile(&arraysize,array);//считывание массива из файла
+	sortn(arraysize, &asgnn, &cmprn,array);//сортировка массива
+	printf("Improved+\n",asgn);
+	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgnn);
 	printf("Quantity of comparisons: %d\n\n",cmprn);
+	printf("                  Standart   Improved   Improved+\n");
+	printf("Assignments: %10d %10d %10d\n",asgn,asgn1,asgnn);
+	printf("Comparisons: %10d %10d %10d\n",cmpr,cmpr1,cmprn);
 	fflush(stdin);//ожидание действий пользователя
 	getchar();
 	return 0;
@@ -345,35 +331,51 @@ int sort1(int qel, int *qas, int *qco, int *array)//сортировка массива
 
 int sortn(int qel, int *qas, int *qco, int *array)//сортировка массива
 {
-	int l,k,j,i,qsort=1,poss=1,pose=qsort; //определение переменных
+	int l,k,j,i,qsort=2,poss=1,pose=qsort; //определение переменных
 	for (k = 2; k <=qel ; k++)//проход по всем элементам после первого
 	{
 		array[0]=array[k];//передача сравниваемого элемента в нулевой элемент
 		*qas=*qas+1;//операция присваивания
-		for (l = 0; l <= (log10(qsort)/log10(2)+0.5); l++)
+		for (l = 0; l <= (log10(qsort)/log10(2)+0.5); l++)//нахождение позиции
 		{
-			if (array[0]>array[poss+(pose-poss)/2])
+			if (array[0]>array[poss+(pose-poss)/2])//сужение диапазона
 			{
-				poss=poss+(pose-poss)/2;
-				//poss=poss+(pose-poss+1)/2-1;
-				j=pose+1;
+				poss=poss+(pose-poss)/2;//изменение начала
 			}
 			else
 			{
-				pose=poss+(pose-poss)/2;
-				j=poss+1;
+				pose=poss+(pose-poss)/2;//изменение конца
 			}
+			*qco=*qco+1;
 		}
-				poss=1;
-		pose=qsort;
-		for (i = k; i > j; i--)//цикл сдвига значений
+		if (qsort==1)//корректировка для первого элемента
 		{
-			array[i]=array[i-1];//сдвиг значения
-			*qas=*qas+1;//операция присваивания
+			j=pose;
+			qsort++;
+			poss=1;
+			if (array[0]<array[1])
+			{
+				array[2]=array[1];
+				array[1]=array[0];
+			}
+			*qco=*qco+1;
+			*qas=*qas+2;
 		}
-		array[j]=array[0];//вставка элемента из нулевого
+		else
+		{
+			j=pose;
+			qsort++;
+			poss=1;
+			pose=qsort;
+			for (i = k; i > j; i--)//цикл сдвига значений
+			{
+				array[i]=array[i-1];//сдвиг значения
+				*qas=*qas+1;//операция присваивания
+			}
+			array[j]=array[0];//вставка элемента из нулевого
+		}
 		*qas=*qas+1;//операция присваивания
-		qsort++;
+
 	}
 }
 
