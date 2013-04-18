@@ -1,4 +1,4 @@
-//—амосто€тельна€ работа 12. ¬ариант 1. яскович ƒмитрий (T02-01c). Dimini Inc. (c)2013
+//—амосто€тельна€ работа 13. ¬ариант 1. яскович ƒмитрий (T02-01c). Dimini Inc. (c)2013
 #include <stdio.h>//подключение библиотек
 #include <stdlib.h>
 #include <math.h>
@@ -356,12 +356,12 @@ int sortn(int qel, int *qas, int *qco, int *array)//сортировка массива
 			{
 				poss=poss+(pose-poss)/2;
 				//poss=poss+(pose-poss+1)/2-1;
-				j=pose;
+				j=pose+1;
 			}
 			else
 			{
 				pose=poss+(pose-poss)/2;
-				j=poss;
+				j=poss+1;
 			}
 		}
 				poss=1;
@@ -376,3 +376,4 @@ int sortn(int qel, int *qas, int *qco, int *array)//сортировка массива
 		qsort++;
 	}
 }
+
