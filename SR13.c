@@ -2,6 +2,7 @@
 #include <stdio.h>//подключение библиотек
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 int filling(int low, int up, int qty, int *array); //прототипы функций
 int output(int qty, int *array);
@@ -23,6 +24,8 @@ int sortn(int qel, int *qas, int *qco, int *array);
 int main(void)//главная функция
 {
 	int *array, arraysize,n,nmax,position,number,low,up,asgn=0,cmpr=0,asgn1=0,cmpr1=0,asgnn=0,cmprn=0;//определение переменных
+	double etime,etime1,etimen;
+	time_t start,finish;
 	printf("Enter quantity of elements in array: ");//ввод количества элементов в массиве
 	scanf("%d", &arraysize);
 	checksize(&arraysize);
@@ -39,28 +42,38 @@ int main(void)//главная функция
 	savetofile(arraysize,array);//сохранение массива в файл
 	readfromfile(&arraysize,array);//считывание массива из файла
 	printf("Array\n",asgn);
-	output(arraysize,array);//вывод массива
+  //	output(arraysize,array);//вывод массива
 	readfromfile(&arraysize,array);//считывание массива из файла
+	start=clock();
 	sort(arraysize, &asgn, &cmpr,array);//сортировка массива
+	finish=clock();
+	etime=(finish-start)/CLOCKS_PER_SEC;
 	printf("Standart sorting\n",asgn);
-	output(arraysize,array);//вывод массива
+   //	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn);
 	printf("Quantity of comparisons: %d\n\n",cmpr);
 	readfromfile(&arraysize,array);//считывание массива из файла
+	start=clock();
 	sort1(arraysize, &asgn1, &cmpr1,array);//сортировка массива
+	finish=clock();
+	etime1=(finish-start)/CLOCKS_PER_SEC;
 	printf("Improved sort\n",asgn);
-	output(arraysize,array);//вывод массива
+   //	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn1);
 	printf("Quantity of comparisons: %d\n\n",cmpr1);
 	readfromfile(&arraysize,array);//считывание массива из файла
+	start=clock();
 	sortn(arraysize, &asgnn, &cmprn,array);//сортировка массива
+	finish=clock();
+	etimen=(finish-start)/CLOCKS_PER_SEC;
 	printf("Improved+\n",asgn);
-	output(arraysize,array);//вывод массива
+   //	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgnn);
 	printf("Quantity of comparisons: %d\n\n",cmprn);
-	printf("                  Standart   Improved   Improved+\n");
-	printf("Assignments: %10d %10d %10d\n",asgn,asgn1,asgnn);
-	printf("Comparisons: %10d %10d %10d\n",cmpr,cmpr1,cmprn);
+	printf("Method       |  Standart  |  Improved  |  Improved+ |\n");
+	printf("Assignments  | %10d | %10d | %10d |\n",asgn,asgn1,asgnn);
+	printf("Comparisons  | %10d | %10d | %10d |\n",cmpr,cmpr1,cmprn);
+	printf("Elapsed time | %10.3lf | %10.3lf | %10.3lf |\n",etime,etime1,etimen);
 	fflush(stdin);//ожидание действий пользователя
 	getchar();
 	return 0;
@@ -378,4 +391,5 @@ int sortn(int qel, int *qas, int *qco, int *array)//сортировка массива
 
 	}
 }
+
 
