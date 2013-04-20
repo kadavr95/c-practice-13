@@ -29,7 +29,7 @@ int main(void)//главная функция
 	printf("Enter quantity of elements in array: ");//ввод количества элементов в массиве
 	scanf("%d", &arraysize);
 	checksize(&arraysize);
-	array = malloc((n+1)*sizeof(int));//создание массива
+	array = malloc((arraysize+1)*sizeof(int));//создание массива
 	printf("Enter limits: ");//ввод пределов
 	scanf("%d %d", &low,&up);
 	if (low>up)
@@ -42,14 +42,14 @@ int main(void)//главная функция
 	savetofile(arraysize,array);//сохранение массива в файл
 	readfromfile(&arraysize,array);//считывание массива из файла
 	printf("Array\n",asgn);
-  	output(arraysize,array);//вывод массива
+  	//output(arraysize,array);//вывод массива
 	readfromfile(&arraysize,array);//считывание массива из файла
 	start=clock();
 	sort(arraysize, &asgn, &cmpr,array);//сортировка массива
 	finish=clock();
 	etime=(finish-start)/CLOCKS_PER_SEC;
 	printf("Standart sorting\n",asgn);
-	output(arraysize,array);//вывод массива
+	//output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn);
 	printf("Quantity of comparisons: %d\n\n",cmpr);
 	readfromfile(&arraysize,array);//считывание массива из файла
@@ -58,7 +58,7 @@ int main(void)//главная функция
 	finish=clock();
 	etime1=(finish-start)/CLOCKS_PER_SEC;
 	printf("Improved sort\n",asgn);
-	output(arraysize,array);//вывод массива
+   //	output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgn1);
 	printf("Quantity of comparisons: %d\n\n",cmpr1);
 	readfromfile(&arraysize,array);//считывание массива из файла
@@ -67,7 +67,7 @@ int main(void)//главная функция
 	finish=clock();
 	etimen=(finish-start)/CLOCKS_PER_SEC;
 	printf("Improved+\n",asgn);
-	output(arraysize,array);//вывод массива
+	//output(arraysize,array);//вывод массива
 	printf("Quantity of assignments: %d\n",asgnn);
 	printf("Quantity of comparisons: %d\n\n",cmprn);
 	printf("Method       |  Standart  |  Improved  |  Improved+ |\n");
